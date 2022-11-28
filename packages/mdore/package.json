@@ -10,16 +10,14 @@
   ],
   "scripts": {
     "build": "father build",
-    "build:watch": "father dev",
-    "dev": "dumi dev",
+    "dev": "father dev",
     "docs:build": "dumi build",
-    "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "start": "npm run dev"
+    "start": "dumi dev"
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
