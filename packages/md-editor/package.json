@@ -1,0 +1,42 @@
+{
+  "name": "md-editor",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "scripts": {
+    "lint": "eslint *.ts*"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.8.0",
+    "@codemirror/lang-markdown": "^6.0.5",
+    "@codemirror/language-data": "^6.1.0",
+    "@codemirror/state": "^6.1.4",
+    "@codemirror/view": "^6.6.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "ahooks": "^3.7.2",
+    "codemirror": "^6.0.1",
+    "highlight.js": "^9.15.6",
+    "lodash": "^4.17.21",
+    "lodash.throttle": "^4.1.1",
+    "markdown-it": "^13.0.1",
+    "markdown-it-deflist": "^2.1.0",
+    "markdown-it-implicit-figures": "^0.10.0",
+    "markdown-it-imsize": "^2.0.1",
+    "markdown-it-ruby": "^0.1.1",
+    "markdown-it-table-of-contents": "^0.6.0",
+    "mobx": "^6.7.0",
+    "mobx-react": "^7.6.0",
+    "mobx-react-lite": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "react": "^18.2.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.2"
+  }
+}
