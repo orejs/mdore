@@ -10,22 +10,9 @@
  * @doc https://umijs.org/docs/guides/proxy
  */
 export default {
-  dev: {},
-  /**
-   * @name 详细的代理配置
-   * @doc https://github.com/chimurai/http-proxy-middleware
-   */
-  test: {
-    // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
+  dev: {
     '/api/': {
-      target: 'https://proapi.azurewebsites.net',
-      changeOrigin: true,
-      pathRewrite: { '^': '' },
-    },
-  },
-  pre: {
-    '/api/': {
-      target: 'your pre url',
+      target: 'http://localhost:3030',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

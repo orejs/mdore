@@ -6,10 +6,7 @@
   "scripts": {
     "analyze": "cross-env ANALYZE=1 max build",
     "build": "max build",
-    "deploy": "npm run build && npm run gh-pages",
     "dev": "npm run start:dev",
-    "gh-pages": "gh-pages -d dist",
-    "i18n-remove": "pro i18n-remove --locale=zh-CN --write",
     "postinstall": "max setup",
     "lint": "npm run lint:js && npm run lint:prettier && npm run tsc",
     "lint-staged": "lint-staged",
@@ -20,15 +17,17 @@
     "openapi": "max openapi",
     "playwright": "playwright install && playwright test",
     "serve": "umi-serve",
-    "start": "cross-env UMI_ENV=dev max dev",
-    "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
-    "start:no-mock": "cross-env MOCK=none UMI_ENV=dev max dev",
-    "start:pre": "cross-env REACT_APP_ENV=pre UMI_ENV=dev max dev",
-    "start:test": "cross-env REACT_APP_ENV=test MOCK=none UMI_ENV=dev max dev",
+    "start": "cross-env PORT=8888 UMI_ENV=dev max dev",
+    "start:dev": "cross-env PORT=8888 REACT_APP_ENV=dev MOCK=none UMI_ENV=dev max dev",
+    "start:no-mock": "cross-env PORT=8888 MOCK=none UMI_ENV=dev max dev",
     "test:e2e": "node ./tests/run-tests.js",
     "tsc": "tsc --noEmit"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.13",
@@ -64,12 +63,13 @@
     "cross-port-killer": "^1.4.0",
     "detect-installer": "^1.0.2",
     "eslint": "^7.32.0",
-    "gh-pages": "^3.2.0",
     "mockjs": "^1.1.0",
     "swagger-ui-dist": "^4.14.2",
     "typescript": "^4.8.4",
     "umi-presets-pro": "^1.0.5",
     "umi-serve": "^1.9.11"
   },
-  "engines": { "node": ">=12.0.0" }
+  "engines": {
+    "node": ">=12.0.0"
+  }
 }
