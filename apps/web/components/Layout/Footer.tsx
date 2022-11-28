@@ -18,10 +18,12 @@ export const Footer = () => {
                 <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                   <div className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
                     {menus.map(({ name, path }, i) => (
-                      <Link key={i} href={path}>
-                        <a className="transition hover:text-teal-500 dark:hover:text-teal-400">
-                          {name}
-                        </a>
+                      <Link
+                        key={i}
+                        href={path}
+                        className="transition hover:text-teal-500 dark:hover:text-teal-400"
+                      >
+                        {name}
                       </Link>
                     ))}
                   </div>
