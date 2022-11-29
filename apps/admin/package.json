@@ -1,8 +1,7 @@
 {
-  "name": "ant-design-pro",
-  "version": "6.0.0-beta.1",
+  "name": "admin",
+  "version": "0.0.0",
   "private": true,
-  "description": "An out-of-box UI solution for enterprise applications",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 max build",
     "build": "max build",
@@ -32,9 +31,11 @@
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.13",
     "@umijs/route-utils": "^2.1.3",
+    "ahooks": "^3.7.2",
     "antd": "^4.23.3",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
+    "md-editor": "workspace:*",
     "moment": "^2.29.4",
     "omit.js": "^2.0.2",
     "rc-menu": "^9.6.4",
@@ -43,7 +44,6 @@
     "react-dev-inspector": "^1.8.1",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.3.0",
-    "md-editor": "workspace:*",
     "ui": "workspace:*"
   },
   "devDependencies": {
