@@ -16,6 +16,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "ahooks": "^3.7.2",
+    "antd": "5.0.2",
     "codemirror": "^6.0.1",
     "highlight.js": "^9.15.6",
     "lodash": "^4.17.21",
@@ -31,6 +32,8 @@
     "mobx-react-lite": "^3.4.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.186",
+    "@types/lodash.throttle": "^4.1.7",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "eslint": "^7.32.0",

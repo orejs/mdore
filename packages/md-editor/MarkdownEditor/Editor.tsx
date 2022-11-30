@@ -1,7 +1,9 @@
-import { observer } from 'mobx-react-lite';
 import { useRef } from 'react';
-// import { Button, Result } from 'antd';
+import styled from '@emotion/styled'
+import { Button, Result } from 'antd';
+import { observer } from 'mobx-react-lite';
 import { useMount, useUnmount } from 'ahooks';
+import { SmileOutlined } from '@ant-design/icons';
 import { PREVIEW_ID } from './constant';
 import type { MarkdownEditorProps } from './store';
 import { Store } from './store';
@@ -11,39 +13,132 @@ interface EditorProps {
   store: Store;
 }
 
+const MdEditor = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  .md-editor-navbar {
+    height: 30px;
+    flex: none;
+    position: relative;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 5%);
+    z-index: 2;
+    background: #fff;
+  }
+  .md-editor-left-nav,
+  .md-editor-navbar {
+    display: flex;
+    align-items: center;
+  }
+  .md-editor-left-nav {
+    flex: 1 1;
+    justify-content: flex-start;
+  }
+  .md-editor-right-nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .md-editor-title {
+    padding: 0 10px 0 20px;
+    font-size: 16px;
+  }
+  .md-editor-article-title,
+  .md-editor-title {
+    font-weight: 700;
+    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, PingFang SC, Cambria,
+      Cochin, Georgia, Times, Times New Roman, serif;
+  }
+  .md-editor-text-container {
+    display: flex;
+    height: calc(100vh - 50px);
+    width: 100%;
+  }
+  .md-editor-marked-text,
+  .md-editor-md-editing,
+  .md-editor-style-editing {
+    position: relative;
+    width: 33.3%;
+    flex-grow: 1;
+    word-wrap: break-word;
+  }
+  .md-editor-md-editing,
+  .md-editor-style-editing {
+    z-index: 1;
+  }
+  .md-editor-md-editing .CodeMirror {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+  .CodeMirror .cm-focused {
+    outline: none !important;
+  }
+  .md-editor-marked-text {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .md-editor-wx-box {
+    overflow-y: auto;
+    padding: 25px 20px;
+    height: 100%;
+    width: 375px;
+    box-shadow: 0 0 60px rgb(0 0 0 / 10%);
+  }
+
+  .md-editor-footer-container {
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+    width: 100%;
+    padding: 0 10px;
+  }
+  .md-editor-footer-left-container {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, PingFang SC, Cambria,
+      Cochin, Georgia, Times, Times New Roman, serif;
+  }
+  .md-editor-footer-left-container > div {
+    font-size: 12px;
+    margin: 0;
+    padding: 0 10px;
+  }
+  .md-editor-footer-right-container {
+    display: flex;
+    align-items: center;
+  }
+`;
+
 const Editor = observer<EditorProps>(({ store }) => {
   const editor = useRef<HTMLDivElement>(null);
   const preview = useRef<HTMLDivElement>(null);
-  const { title, parseHtml, lineCount, wordCount, publishLoading, onPublish } =
-    store;
+  const { title, parseHtml, lineCount, wordCount, publishLoading, onPublish } = store;
   useMount(() => store.mount(editor.current!, preview.current!));
   useUnmount(() => store.unmount());
 
   return (
-    <div className="w-screen h-screen overflow-hidden">
-      <div className="flex items-center h-8 flex-none relative z-20 bg-white shadow-[0_4px_10px_rgb(0,0,0,0.05)]">
-        <div className="flex-1 flex items-center justify-start">
-          <section className="text-base pl-5 pr-2 font-bold">{title}</section>
+    <MdEditor>
+      <div className="md-editor-navbar">
+        <div className="md-editor-left-nav">
+          <section className="md-editor-title">{title}</section>
         </div>
-        <div className="flex items-center justify-end">
-          {/* <Button loading={publishLoading} type="primary" onClick={onPublish}>
+        <div className="md-editor-right-nav">
+          <Button loading={publishLoading} type="primary" onClick={onPublish}>
             发布
-          </Button> */}
+          </Button>
         </div>
       </div>
-      <div className="flex w-full h-[calc(100vh-3.5rem)]">
-        <div className="flex-1 w-1/3 relative text-base bg-neutral-100">
-          <div
-            ref={editor}
-            className="CodeMirror w-full h-full overflow-auto"
-          />
+      <div className="md-editor-text-container">
+        <div className="md-editor-md-editor">
+          <div ref={editor} className="CodeMirror" />
         </div>
 
-        <div className="flex-1 w-1/3 p-5 relative flex justify-center">
-          <div
-            className="overflow-y-auto py-6 px-5 h-full w-[375px] shadow-[0_0_60px_rgb(0,0,0,0.1)]"
-            ref={preview}
-          >
+        <div className="md-editor-rich-text">
+          <div className="md-editor-wx-box" ref={preview}>
             <section
               id={PREVIEW_ID}
               data-tool="mdBore编辑器"
@@ -55,43 +150,32 @@ const Editor = observer<EditorProps>(({ store }) => {
           </div>
         </div>
       </div>
-      <div className="px-2 w-full h-6 flex justify-between">
-        <div className="flex items-center text-xs bg-white">
-          <div className="m-0 px-3">
+      <div className="md-editor-footer-container">
+        <div className="md-editor-footer-left-container">
+          <div>
             行数：
             {lineCount}
           </div>
-          <div className="m-0 px-3">
+          <div>
             字数：
             {wordCount}
           </div>
-          <div className="m-0 px-3">主题：全栈蓝</div>
+          <div>主题：全栈蓝</div>
         </div>
+        <div className="md-editor-footer-right-container"></div>
       </div>
-    </div>
+    </MdEditor>
   );
 });
 
 function MarkdownEditor(props: MarkdownEditorProps) {
-  const render = () => {
-    if (isPC()) return <Editor store={new Store(props)} />;
-    // return (
-    //   <Result
-    //     icon={<SmileOutlined />}
-    //     title="请使用 PC 端打开排版工具"
-    //     subTitle="更多 Markdown Nice 信息，请扫码关注公众号「编程如画」"
-    //   />
-    // );
-    return null;
-  };
+  if (isPC()) return <Editor store={new Store(props)} />;
   return (
-    <>
-      {/* <Head>
-        <style id={THEME_ID}></style>
-        <style id={CODE_THEME_ID}></style>
-      </Head> */}
-      {render()}
-    </>
+    <Result
+      icon={<SmileOutlined />}
+      title="请使用 PC 端打开排版工具"
+      subTitle="更多 Markdown Nice 信息，请扫码关注公众号「编程如画」"
+    />
   );
 }
 
