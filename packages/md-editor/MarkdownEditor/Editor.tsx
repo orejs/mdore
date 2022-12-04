@@ -1,9 +1,9 @@
-import { useRef } from 'react';
-import styled from '@emotion/styled'
+import { SmileOutlined } from '@ant-design/icons';
+import styled from '@emotion/styled';
+import { useMount, useUnmount } from 'ahooks';
 import { Button, Result } from 'antd';
 import { observer } from 'mobx-react-lite';
-import { useMount, useUnmount } from 'ahooks';
-import { SmileOutlined } from '@ant-design/icons';
+import { useRef } from 'react';
 import { PREVIEW_ID } from './constant';
 import type { MarkdownEditorProps } from './store';
 import { Store } from './store';
@@ -47,8 +47,8 @@ const MdEditor = styled.div`
   .md-editor-article-title,
   .md-editor-title {
     font-weight: 700;
-    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, PingFang SC, Cambria,
-      Cochin, Georgia, Times, Times New Roman, serif;
+    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light,
+      PingFang SC, Cambria, Cochin, Georgia, Times, Times New Roman, serif;
   }
   .md-editor-text-container {
     display: flex;
@@ -99,8 +99,8 @@ const MdEditor = styled.div`
     display: flex;
     align-items: center;
     background: #fff;
-    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, PingFang SC, Cambria,
-      Cochin, Georgia, Times, Times New Roman, serif;
+    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light,
+      PingFang SC, Cambria, Cochin, Georgia, Times, Times New Roman, serif;
   }
   .md-editor-footer-left-container > div {
     font-size: 12px;
@@ -116,7 +116,8 @@ const MdEditor = styled.div`
 const Editor = observer<EditorProps>(({ store }) => {
   const editor = useRef<HTMLDivElement>(null);
   const preview = useRef<HTMLDivElement>(null);
-  const { title, parseHtml, lineCount, wordCount, publishLoading, onPublish } = store;
+  const { title, parseHtml, lineCount, wordCount, publishLoading, onPublish } =
+    store;
   useMount(() => store.mount(editor.current!, preview.current!));
   useUnmount(() => store.unmount());
 

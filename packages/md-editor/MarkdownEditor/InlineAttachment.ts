@@ -14,6 +14,8 @@ interface AttachmentSettings {
   errorText: string;
   extraParams: Record<string, any>;
   extraHeaders: Record<string, any>;
+  setupFormData?: (formData: FormData, file: File) => void;
+  remoteFilename?: (file: File) => string;
   beforeFileUpload: (file: File, xhr: XMLHttpRequest) => boolean;
   onFileReceived: (file: File) => boolean;
   onFileUploadResponse: (file: File, xhr: XMLHttpRequest) => boolean;
@@ -152,12 +154,10 @@ class FileUpload {
 
     this.file = file;
 
-    // if (typeof settings.setupFormData === 'function') {
-    //   settings.setupFormData(formData, file)
-    // }
+    if (typeof settings.setupFormData === 'function') {
+      settings.setupFormData(formData, file);
+    }
 
-    // Attach the file. If coming from clipboard, add a default filename (only works in Chrome for now)
-    // http://stackoverflow.com/questions/6664967/how-to-give-a-blob-uploaded-as-formdata-a-file-name
     if (file.name) {
       const fileNameMatches = file.name.match(/\.(.+)$/);
       if (fileNameMatches) {
@@ -165,14 +165,13 @@ class FileUpload {
       }
     }
 
-    const remoteFilename = 'image-' + Date.now() + '.' + extension;
-    // if (typeof settings.remoteFilename === 'function') {
-    //   remoteFilename = settings.remoteFilename(file)
-    // }
+    let remoteFilename = 'image-' + Date.now() + '.' + extension;
+    if (typeof settings.remoteFilename === 'function') {
+      remoteFilename = settings.remoteFilename(file);
+    }
 
     formData.append(settings.uploadFieldName, file, remoteFilename);
 
-    // Append the extra parameters to the formdata
     if (typeof settings.extraParams === 'object') {
       for (const key in settings.extraParams) {
         if (settings.extraParams.hasOwnProperty(key)) {
@@ -183,7 +182,6 @@ class FileUpload {
 
     xhr.open('POST', settings.uploadUrl);
 
-    // Add any available extra headers
     if (typeof settings.extraHeaders === 'object') {
       for (const header in settings.extraHeaders) {
         if (settings.extraHeaders.hasOwnProperty(header)) {

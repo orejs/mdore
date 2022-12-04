@@ -1,49 +1,46 @@
-import { codePointAt, codePointSize, fromCodePoint } from '@codemirror/state';
 import type { Text, TextIterator } from '@codemirror/state';
+import { codePointAt, codePointSize, fromCodePoint } from '@codemirror/state';
 
 const basicNormalize: (string: string) => string =
-  typeof String.prototype.normalize == 'function' ? (x) => x.normalize('NFKD') : (x) => x;
+  typeof String.prototype.normalize == 'function'
+    ? (x) => x.normalize('NFKD')
+    : (x) => x;
 
-/// A search cursor provides an iterator over text matches in a
-/// document.
 export class SearchCursor implements Iterator<{ from: number; to: number }> {
   private iter: TextIterator;
-  /// The current match (only holds a meaningful value after
-  /// [`next`](#search.SearchCursor.next) has been called and when
-  /// `done` is false).
   value = { from: 0, to: 0 };
-  /// Whether the end of the iterated region has been reached.
   done = false;
   private matches: number[] = [];
   private buffer = '';
   private bufferPos = 0;
   private bufferStart: number;
   private normalize: (string: string) => string;
-  private test?: (from: number, to: number, buffer: string, bufferPos: number) => boolean;
+  private test?: (
+    from: number,
+    to: number,
+    buffer: string,
+    bufferPos: number,
+  ) => boolean;
   private query: string;
 
-  /// Create a text cursor. The query is the search string, `from` to
-  /// `to` provides the region to search.
-  ///
-  /// When `normalize` is given, it will be called, on both the query
-  /// string and the content it is matched against, before comparing.
-  /// You can, for example, create a case-insensitive search by
-  /// passing `s => s.toLowerCase()`.
-  ///
-  /// Text is always normalized with
-  /// [`.normalize("NFKD")`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize)
-  /// (when supported).
   constructor(
     text: Text,
     query: string,
     from: number = 0,
     to: number = text.length,
     normalize?: (string: string) => string,
-    test?: (from: number, to: number, buffer: string, bufferPos: number) => boolean,
+    test?: (
+      from: number,
+      to: number,
+      buffer: string,
+      bufferPos: number,
+    ) => boolean,
   ) {
     this.iter = text.iterRange(from, to);
     this.bufferStart = from;
-    this.normalize = normalize ? (x) => normalize(basicNormalize(x)) : basicNormalize;
+    this.normalize = normalize
+      ? (x) => normalize(basicNormalize(x))
+      : basicNormalize;
     this.query = this.normalize(query);
     this.test = test;
   }
@@ -59,18 +56,11 @@ export class SearchCursor implements Iterator<{ from: number; to: number }> {
     return codePointAt(this.buffer, this.bufferPos);
   }
 
-  /// Look for the next match. Updates the iterator's
-  /// [`value`](#search.SearchCursor.value) and
-  /// [`done`](#search.SearchCursor.done) properties. Should be called
-  /// at least once before using the cursor.
   next() {
     while (this.matches.length) this.matches.pop();
     return this.nextOverlapping();
   }
 
-  /// The `next` method will ignore matches that partially overlap a
-  /// previous match. This method behaves like `next`, but includes
-  /// such matches.
   nextOverlapping() {
     for (;;) {
       const next = this.peek();
@@ -117,7 +107,11 @@ export class SearchCursor implements Iterator<{ from: number; to: number }> {
       if (this.query.length == 1) match = { from: pos, to: pos + 1 };
       else this.matches.push(1, pos);
     }
-    if (match && this.test && !this.test(match.from, match.to, this.buffer, this.bufferPos))
+    if (
+      match &&
+      this.test &&
+      !this.test(match.from, match.to, this.buffer, this.bufferPos)
+    )
       match = null;
     return match;
   }

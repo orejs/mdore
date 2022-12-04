@@ -13,19 +13,9 @@ import { EditorView } from '@codemirror/view';
 import { SearchCursor } from './cursor';
 
 interface SearchConfig {
-  /// Whether to position the search panel at the top of the editor
-  /// (the default is at the bottom).
   top?: boolean;
-
-  /// Whether to enable case sensitivity by default when the search
-  /// panel is activated (defaults to false).
   caseSensitive?: boolean;
-
-  /// Whether to treat string searches literally by default (defaults to false).
   literal?: boolean;
-
-  /// Controls whether the default query has by-word matching enabled.
-  /// Defaults to false.
   wholeWord?: boolean;
 }
 const baseFlags = 'gm' + (/x/.unicode == null ? '' : 'u');
@@ -73,45 +63,23 @@ const searchConfigFacet: Facet<
   },
 });
 class SearchQuery {
-  /// The search string (or regular expression).
   readonly search: string;
-  /// Indicates whether the search is case-sensitive.
   readonly caseSensitive: boolean;
-  /// By default, string search will replace `\n`, `\r`, and `\t` in
-  /// the query with newline, return, and tab characters. When this
-  /// is set to true, that behavior is disabled.
   readonly literal: boolean;
-  /// When true, the search string is interpreted as a regular
-  /// expression.
   readonly regexp: boolean;
-  /// The replace text, or the empty string if no replace text has
-  /// been given.
   readonly replace: string;
-  /// Whether this query is non-empty and, in case of a regular
-  /// expression search, syntactically valid.
   readonly valid: boolean;
-  /// When true, matches that contain words are ignored when there are
-  /// further word characters around them.
   readonly wholeWord: boolean;
 
   /// @internal
   readonly unquoted: string;
 
-  /// Create a query object.
   constructor(config: {
-    /// The search string.
     search: string;
-    /// Controls whether the search should be case-sensitive.
     caseSensitive?: boolean;
-    /// By default, string search will replace `\n`, `\r`, and `\t` in
-    /// the query with newline, return, and tab characters. When this
-    /// is set to true, that behavior is disabled.
     literal?: boolean;
-    /// When true, interpret the search string as a regular expression.
     regexp?: boolean;
-    /// The replace text.
     replace?: string;
-    /// Enable whole-word matching.
     wholeWord?: boolean;
   }) {
     this.search = config.search;
@@ -133,7 +101,6 @@ class SearchQuery {
         );
   }
 
-  /// Compare this query to another query.
   eq(other: SearchQuery) {
     return (
       this.search == other.search &&
@@ -149,8 +116,6 @@ class SearchQuery {
     return new StringQuery(this);
   }
 
-  /// Get a search cursor for this query, searching through the given
-  /// range in the given state.
   getCursor(
     state: EditorState | Text,
     from: number = 0,
