@@ -170,6 +170,8 @@ const Editor = observer<EditorProps>(({ store }) => {
 });
 
 function MarkdownEditor(props: MarkdownEditorProps) {
+  console.log('MarkdownEditor555');
+  
   if (isPC()) return <Editor store={new Store(props)} />;
   return (
     <Result
