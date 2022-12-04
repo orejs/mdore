@@ -30,7 +30,7 @@ const nextConfig = {
       },
       {
         source: '/admin/:match*',
-        destination: 'https://aore.vercel.app/:match*',
+        destination: `${process.env.ADMIN_URL}/:match*`,
       },
     ];
   },
